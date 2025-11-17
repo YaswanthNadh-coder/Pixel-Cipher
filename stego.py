@@ -24,7 +24,7 @@ def encode(image_path, message, password):
         msg_bits=text_to_bits(encrypted_message)
         num_bits=len(msg_bits)
 
-        #METHOD 1: Turned out to be very space inefficient
+        #METHOD 1: Turned out to be very space inefficient especially for high-res images
         #coordinates=[(x,y) for x in range(width) for y in range(height)]
         #gives a list of 2-tuples containing all the possible coordinates in an image
 
@@ -39,7 +39,27 @@ def encode(image_path, message, password):
         #randomly selects "num_bits" indices from the given range
 
         for i in range(num_bits):
-            pass
+            bit=msg_bits[i]
+            index=selected_indices[i]
+            #converting the 1D index to a 2D coordinate
+            x=index%width
+            y=index//width
+
+            r,g,b=pixels[x,y]
+            #get the bit value of each r,g,b of the pixel
+
+            if bit=='1':
+                new_r=r | 1
+            else:
+                new_r=r & 254
+            
+            pixels[x,y]=(new_r,g,b)
+
+            #FUTURE PLAN: Store the bits into each r, g and b of each pixel
+
+        output_path = "encoded_image.png"
+        img.save(output_path)
+        print("Successfully encoded message.")
 
     except FileNotFoundError:
         print(f"Error: Cannot find file at {image_path}")

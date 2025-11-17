@@ -10,7 +10,7 @@ __pycache__/
 *.pyd
 
 # 3. Output Files
-encoded_image.png
+*.png
 decoded_message.txt
 
 # 4. IDE / Editor Folders

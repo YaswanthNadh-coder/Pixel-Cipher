@@ -1,0 +1,19 @@
+# 1. Virtual Environments
+/venv/
+*.env
+.env
+
+# 2. Python Cache & Compiled Files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 3. Output Files
+*.png
+decoded_message.txt
+
+# 4. IDE / Editor Folders
+.vscode/
+.idea/
+.DS_Store

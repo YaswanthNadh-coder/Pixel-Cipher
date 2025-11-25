@@ -4,7 +4,7 @@ from crypto import vigenere_encrypt,vigenere_decrypt,text_to_bits, bits_to_text
 
 #the original format of image won't matter, as pillow decompresses .jpg to give the same pixel data but while saving we'll use .png to perfectly preserve all the pixels
 
-def encode(image_path, message, password):
+def encode(image_path, message, password, output_path="encoded_image.png"):
     try:
         img=Image.open(image_path)
         #img stores an object(instacne of Image class) that holds the meta-data of image and a pointer to the actual image
@@ -63,7 +63,7 @@ def encode(image_path, message, password):
             r,g,b=pixels[x,y]
             #get the bit value of each r,g,b of the pixel
 
-            if bit=='1':
+            if bit==1:
                 new_r=r | 1
             else:
                 new_r=r & 254
@@ -72,7 +72,6 @@ def encode(image_path, message, password):
 
             #FUTURE PLAN: Store the bits into each r, g and b of each pixel
 
-        output_path = "encoded_image.png"
         img.save(output_path)
         print("Successfully encoded message.")
 

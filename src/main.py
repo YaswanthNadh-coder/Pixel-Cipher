@@ -37,7 +37,9 @@ def main():
         elif choice == '2':
             print("\n--- DECODE MODE ---")
             image_path = input("Enter the path to the image: ").strip().strip('"')
-            
+            if not image_path.lower().endswith(".png"):
+                image_path += ".png"
+                
             if not os.path.exists(image_path):
                 print(f"Error: The file '{image_path}' was not found.")
                 continue

@@ -31,8 +31,8 @@ def main():
                 output_name = "encoded_image.png"
             if not output_name.lower().endswith(".png"):
                 output_name += ".png"
-            
-            encode(image_path, message, password,output_name)
+            output_path = os.path.join("data", output_name)
+            encode(image_path, message, password,output_path)
 
         elif choice == '2':
             print("\n--- DECODE MODE ---")

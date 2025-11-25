@@ -1,6 +1,6 @@
 from PIL import Image
 import random
-from crypto import encrypt,decrypt,text_to_bits, bits_to_text
+from crypto import vigenere_encrypt,vigenere_decrypt,text_to_bits, bits_to_text
 
 #the original format of image won't matter, as pillow decompresses .jpg to give the same pixel data but while saving we'll use .png to perfectly preserve all the pixels
 
@@ -20,7 +20,7 @@ def encode(image_path, message, password):
         height=img_dim[1]
         total_pixels=width*height
 
-        encrypted_message=encrypt(message, password)
+        encrypted_message=vigenere_encrypt(message, password)
         msg_bits=text_to_bits(encrypted_message)
         num_bits=len(msg_bits)
 
@@ -109,7 +109,8 @@ def decode(image_path, password):
             extracted_bits+=str(r & 1)
         encrypted_message=bits_to_text(extracted_bits)
 
-        original_message=decrypt(encrypted_message, password)
+        original_message=vigenere_decrypt(encrypted_message, password)
+        print("Success! Message decoded.")
         return original_message
     
     except FileNotFoundError:
@@ -118,11 +119,3 @@ def decode(image_path, password):
     except Exception as e:
         print(f"An error occured: {e}")
         return None
-
-##ONLY FOR TESTING
-
-if __name__ == "__main__":
-    test_image = "test.png"
-    test_message = "This is a secret"
-    test_password = "key"
-    encode(test_image, test_message, test_password)

@@ -25,8 +25,14 @@ def main():
 
             message = input("Enter the message to hide: ")
             password = input("Enter a password: ")
+            output_name = input("Enter name of encoded image file: ").strip()
             
-            encode(image_path, message, password)
+            if not output_name:
+                output_name = "encoded_image.png"
+            if not output_name.lower().endswith(".png"):
+                output_name += ".png"
+            
+            encode(image_path, message, password,output_name)
 
         elif choice == '2':
             print("\n--- DECODE MODE ---")

@@ -1,77 +1,79 @@
-from typing import List
-
-def getHash(message: str)->str:
-    #calculates a simple ASCII value sum of all characters in the message so that we can check if the password entered is correct or not
-    total=0
+def get_hash(message):
+    #Calculates a simple sum of ASCII values of characters in the message
+    total = 0
     for char in message:
-        total+=ord(char)
+        total += ord(char)
     return str(total)
 
-def _password_bytes(password: str) -> bytes:
-    return password.encode('utf-8')
+def vigenere_encrypt(message, password):
+    hash = get_hash(message)
+    combined_text = hash + "||" + message
 
-def vigenere_encrypt(message: str, password: str) -> bytes:
-    hash=getHash(message)
-    payload=f"{hash}||{message}"
-
-    msg_bytes = payload.encode('utf-8')
-    key = _password_bytes(password)
-    if not key:
+    msg_bytes = combined_text.encode('utf-8')
+    key_bytes = password.encode('utf-8')
+    
+    if not password:
         raise ValueError("Password cannot be empty.")
-    out = bytearray(len(msg_bytes))
-    for i, b in enumerate(msg_bytes):
-        k = key[i % len(key)]
-        out[i] = (b + k) % 256
-    return bytes(out)
 
-def vigenere_decrypt(cipher_text: str, password: str) -> str:
-    cipher_bytes=cipher_text.encode('latin-1')
-    key = _password_bytes(password)
-    if not key:
+    encrypted_out = bytearray(len(msg_bytes))
+    key_len = len(key_bytes)
+    
+    for i in range(len(msg_bytes)):
+        msg_val = msg_bytes[i]
+        key_val = key_bytes[i % key_len]
+    
+        encrypted_out[i] = (msg_val + key_val) % 256
+        
+    return bytes(encrypted_out)
+
+def vigenere_decrypt(cipher_text, password):
+    cipher_bytes = cipher_text.encode('latin-1')
+    key_bytes = password.encode('utf-8')
+    
+    if not password:
         raise ValueError("Password cannot be empty.")
-    out = bytearray(len(cipher_bytes))
-    for i, b in enumerate(cipher_bytes):
-        k = key[i % len(key)]
-        out[i] = (b - k) % 256
+        
+    decrypted_out = bytearray(len(cipher_bytes))
+    key_len = len(key_bytes)
+
+    for i in range(len(cipher_bytes)):
+        cipher_val = cipher_bytes[i]
+        key_val = key_bytes[i % key_len]
+        
+        decrypted_out[i] = (cipher_val - key_val) % 256
     
     try:
-        decrypted_payload = out.decode('utf-8')
+        decrypted_str = decrypted_out.decode('utf-8')
     except UnicodeDecodeError:
-         raise ValueError("Entered password is wrong (Garbage Data).")
+        raise ValueError("Entered password is wrong.")
 
     try:
-        extracted_hash, original_message = decrypted_payload.split("||", 1)
+        extracted_hash, original_message = decrypted_str.split("||", 1)
     except ValueError:
         raise ValueError("Integrity Check Failed: Format Error")
 
-    current_hash = getHash(original_message)
+    current_hash = get_hash(original_message)
     
     if current_hash != extracted_hash:
         raise ValueError("Entered password is wrong.")
         
     return original_message
 
-def text_to_bits(data: bytes) -> List[int]:
+def text_to_bits(data):
     bits = []
-    for b in data:
+    for byte in data:
         for i in range(8):
-            bits.append((b >> (7 - i)) & 1)
+            val = (byte >> (7 - i)) & 1
+            bits.append(val)
     return bits
 
-def bits_to_bytes(bits: List[int]) -> bytes:
-    if len(bits) % 8 != 0:
-        raise ValueError("Bits length must be multiple of 8.")
-    out = bytearray(len(bits) // 8)
-    for i in range(0, len(bits), 8):
-        byte = 0
-        for j in range(8):
-            byte = (byte << 1) | (bits[i + j] & 1)
-        out[i // 8] = byte
-    return bytes(out)
-
-def bits_to_text(bits_str: str) -> str:
+def bits_to_text(bits_string):
     chars = []
-    for i in range(0, len(bits_str), 8):
-        byte_str = bits_str[i:i+8]
-        chars.append(chr(int(byte_str, 2)))
+    for i in range(0, len(bits_string), 8):
+        byte_chunk = bits_string[i:i+8]
+        
+        int_val = int(byte_chunk, 2)
+        
+        chars.append(chr(int_val))
+        
     return "".join(chars)

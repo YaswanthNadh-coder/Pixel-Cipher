@@ -34,7 +34,10 @@ def vigenere_decrypt(cipher_text: str, password: str) -> str:
         k = key[i % len(key)]
         out[i] = (b - k) % 256
     
-    decrypted_payload=out.decode('latin-1')
+    try:
+        decrypted_payload = out.decode('utf-8')
+    except UnicodeDecodeError:
+         raise ValueError("Entered password is wrong (Garbage Data).")
 
     try:
         extracted_hash, original_message = decrypted_payload.split("||", 1)

@@ -55,7 +55,7 @@ Handles the image manipulation.
 ###  Example Input / Output
 
 1.  **Input:**
-    * **Image:** `test.png` (A normal picture of a landscape)
+    * **Image:** `data/test.png` (A normal picture of a landscape)
     * **Message:** "Meet me at midnight"
     * **Password:** "secret123"
     * **Output Name:** `hidden.png`
@@ -78,16 +78,17 @@ Follow these steps to run the project on your local machine.
 
 1. Make sure python is installed by running:
 ```bash
-python3 --version
+python3 --version       #for linux
+python --version        #for windows
 ```
 2. Install the pillow library:
 ```bash
-pip install Pillow
+pip3 install Pillow     #for linux
+pip install Pillow      #for windows
 ```
 3. In the same directory as the root project folder, run:
 ```bash
-python3 src/main.py
+python3 src/main.py     #for linux
+python src/main.py      #for windows
 ```
-
-
-
+An image for testing is already present in the /data folder.

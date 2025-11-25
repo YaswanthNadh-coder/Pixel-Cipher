@@ -15,7 +15,7 @@ Pixel-Cipher is a secure image steganography tool built from scratch in Python. 
 1.  **LSB Steganography (Least Significant Bit):** We modify the last bit of the Red color channel of specific pixels to store our data. This change is so small that the human eye cannot see the difference.
 2.  **Symmetric Encryption (Vigenère Cipher):** Before hiding the message, we encrypt it using a custom Vigenère cipher implementation. This adds a second layer of security.
 3.  **Pseudo-Random Number Generation (PRNG):** We use the user's password to "seed" the random number generator. This allows us to generate a unique, reproducible pattern of pixel coordinates to hide the data in.
-4.  **Data Integrity :** We calculate a simple ASCII sum of the message before encrypting. This acts as a "seal" to verify if the password is correct during decryption.
+4.  **Data Integrity :** We calculate a simple ASCII sum of the message before encrypting. We use this to verify if the password entered is correct during decryption.
 
 #### **Libraries**
 * **`Pillow` (PIL):** Used for opening images, reading pixel data (`load()`), and saving the final output.

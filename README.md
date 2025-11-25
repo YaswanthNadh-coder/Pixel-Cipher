@@ -68,7 +68,7 @@ Handles the image manipulation.
 
 
 3.  **Output:**
-    * `hidden.png` is created in the same directory. It looks identical to `test.png` to the naked eye.
+    * `hidden.png` is created in the /data folder. It looks identical to `test.png` to the naked eye.
 
 ---
 
@@ -84,7 +84,7 @@ python3 --version
 ```bash
 pip install Pillow
 ```
-3. In the same directory as the project folder, run:
+3. In the same directory as the root project folder, run:
 ```bash
 python3 src/main.py
 ```

@@ -2,6 +2,7 @@
 # Pixel-Cipher
 
 **Team Name:** PyBash
+
 **Author:** Pragyan Ojha 
 
 ###  Short Description
